@@ -1,0 +1,43 @@
+-- Invisibility.81309a.ttslua
+function onObjectPickUp(color, object)
+  if object == self
+  then
+    self.registerCollisions()
+    counter = 0
+  end
+end
+
+function triggerEffects(parent_object)
+  self.setLock(true)
+  self.setPosition(parent_object.getPosition())
+  self.AssetBundle.playTriggerEffect(0)
+end
+
+function setInvisible(object)
+  if object.getGMNotes() == 'invisible_infinite_bag'
+  then
+    return
+  else
+    counter = counter + 1
+    ALL_COLORS = {
+      'White', 'Brown', 'Red', 'Orange', 'Yellow', 'Green', 'Teal', 'Blue',
+      'Purple', 'Pink'
+    }
+    if counter == 1
+    then
+      if object.getGMNotes() == 'invisible'
+      then
+        set_invisible = false
+        object.setGMNotes('')
+      else
+        set_invisible = true
+        object.setGMNotes('invisible')
+      end
+      object.setLock(true)
+      triggerEffects(object)
+      object.attachInvisibleHider('invisible', set_invisible, ALL_COLORS)
+      object.setLock(false)
+      Wait.frames(function() self.destruct() end, 30)
+    end
+  end
+end

@@ -1,0 +1,7 @@
+-- Global.-1.ttslua
+function onObjectCollisionEnter(registered_object, info)
+  if registered_object.getGMNotes() == 'set_invisible'
+  then
+    registered_object.call('setInvisible', info.collision_object)
+  end
+end
